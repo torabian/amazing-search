@@ -124,6 +124,41 @@
           }
         }
       }
+    },
+    "amazing-search-core": {
+      "projectType": "library",
+      "root": "projects/amazing-search-core",
+      "sourceRoot": "projects/amazing-search-core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/amazing-search-core/tsconfig.lib.json",
+            "project": "projects/amazing-search-core/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/amazing-search-core/src/test.ts",
+            "tsConfig": "projects/amazing-search-core/tsconfig.spec.json",
+            "karmaConfig": "projects/amazing-search-core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/amazing-search-core/tsconfig.lib.json",
+              "projects/amazing-search-core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "amazing-search"
 }

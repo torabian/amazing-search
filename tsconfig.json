@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "amazing-search-core": [
+        "dist/amazing-search-core"
+      ],
+      "amazing-search-core/*": [
+        "dist/amazing-search-core/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

@@ -1,0 +1,43 @@
+<div class="search-box-container">
+  <input
+    type="text"
+    #searchboxInput
+    [(ngModel)]="searchTerm"
+    (keyup)="onKeyUp($event)"
+    class="search-input"
+    track-focus
+    [placeholder]="options.staticHint"
+    (input)="onInput($event)"
+  />
+  <div class="dots animate" *ngIf="inputActive">
+    <span></span> <span></span> <span></span> <span></span> <span></span>
+  </div>
+
+  <div
+    class="search"
+    (click)="onSearchButtonClick()"
+    [ngClass]="searchTerm ? 'active' : ''"
+  >
+    <span class="search-icon"></span>
+  </div>
+
+  <div
+    *ngIf="suggestions && suggestions.length"
+    class="search-box-suggestion"
+    [@openClosed]="
+      searchTerm && visibleSuggestions ? 'open' : 'closed'
+    "
+  >
+    <ng-container *ngFor="let suggestion of suggestions; let i = index">
+      <div
+        (click)="selectByPress(i)"
+        [tabindex]="i"
+        class="search-box-suggestion-item search-item-score-{{ 100 - i * 10 }}"
+        [ngClass]="i === selectedIndex ? 'active' : ''"
+      >
+        <h3 class="suggestion-header">{{ suggestion.title }}</h3>
+        <div class="suggestion-description">{{ suggestion.description }}</div>
+      </div>
+    </ng-container>
+  </div>
+</div>

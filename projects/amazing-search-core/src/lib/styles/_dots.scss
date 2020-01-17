@@ -1,0 +1,64 @@
+$dots: 5;
+$spacing: 20;
+$gap: 0.05;
+
+.dots {
+  z-index: 99999;
+  position: absolute;
+  top: 40%;
+  width: 100%;
+}
+@for $i from 1 through $dots {
+  .dots span:nth-child(#{$i}) {
+    animation-delay: #{$i * $gap}s;
+  }
+  .dots span:nth-child(#{$i}):after {
+    left: -#{$i * $spacing}px;
+  }
+}
+.dots span {
+  display: inline-block;
+  position: absolute;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
+.dots span:after {
+  content: '';
+  position: absolute;
+  display: inline-block;
+  background-color: #f2f2f2;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dots.animate span {
+  animation-name: dots;
+}
+
+@keyframes dots {
+  0%,
+  20% {
+    left: 0;
+    animation-timing-function: ease-out;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  35% {
+    left: 45%;
+    animation-timing-function: linear;
+  }
+  65% {
+    left: 55%;
+    animation-timing-function: ease-in;
+  }
+  75% {
+    opacity: 1;
+  }
+  80%,
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
