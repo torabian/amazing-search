@@ -36,5 +36,5 @@ export interface ISearchable {
   /**
    * @description When user selects this result, this script will be called
    */
-  onSelect?: () => void;
+  onSelect?: (item: ISearchable) => void;
 }

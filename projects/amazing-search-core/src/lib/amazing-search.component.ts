@@ -133,6 +133,11 @@ export class AmazingSearchComponent implements OnInit, OnDestroy {
       result.map(x => this.termsItems.find(y => y.id === x.ref))
     );
   }
+
+  public get CurentSelectedItem() {
+    return this.suggestions[this.selectedIndex];
+  }
+
   /**
    * @description Selects an item which is focused by keyboard arrows, touch or click
    */
@@ -149,7 +154,7 @@ export class AmazingSearchComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(suggestion.navigatesByUri);
     }
     if (suggestion.onSelect) {
-      suggestion.onSelect();
+      suggestion.onSelect(this.CurentSelectedItem);
     }
   }
   public selectByPress(index: number) {
