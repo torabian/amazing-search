@@ -18,6 +18,7 @@ import {
 } from './amazing-search-definitions';
 import { drawerAnim } from './amazing-search-anims';
 import { Router } from '@angular/router';
+import { IsMobileOrTablet } from './amazing-search.service';
 
 @Component({
   selector: 'amazing-search',
@@ -72,12 +73,6 @@ export class AmazingSearchComponent implements OnInit, OnDestroy {
       terms.forEach(x => this.add(x));
     });
   }
-  private normalizeOptions() {
-    this.options = {
-      staticHint: 'Search (Press S)...',
-      ...this.options
-    };
-  }
 
   private handleIndex(
     e: KeyboardEvent,
@@ -106,7 +101,6 @@ export class AmazingSearchComponent implements OnInit, OnDestroy {
     );
     if (e.keyCode === 27) {
       if (!this.searchTerm) {
-        console.log('Blur!');
         this.searchboxInput.nativeElement.blur();
       }
       this.dismissSuggestion();
@@ -126,12 +120,12 @@ export class AmazingSearchComponent implements OnInit, OnDestroy {
       return this.searchResult.next([]);
     }
     const result: ILunrDocument<ISearchable>[] = this.indexes.search(term);
+
+    const final = result.map(x => this.termsItems.find(y => y.id === x.ref));
     if (!result) {
       return;
     }
-    this.searchResult.next(
-      result.map(x => this.termsItems.find(y => y.id === x.ref))
-    );
+    this.searchResult.next(final);
   }
 
   public get CurentSelectedItem() {
@@ -166,6 +160,17 @@ export class AmazingSearchComponent implements OnInit, OnDestroy {
     // this.searchResult.next([]);
   }
 
+  public get viewPlaceholder() {
+    if (IsMobileOrTablet()) {
+      return (
+        this.options.placeholderMobileText ||
+        this.options.placeholderText ||
+        `Tap to search...`
+      );
+    }
+    return this.options.placeholderText || `Press 'S' or click to search...`;
+  }
+
   constructor(private ref: ElementRef, private router: Router) {}
 
   public onInput(event) {
@@ -174,13 +179,9 @@ export class AmazingSearchComponent implements OnInit, OnDestroy {
     this.searchTerm = value;
     this.keyUp.next(value);
     this.inputActive = true;
-    // if (!value) {
-    //   this.searchResult.next([]);
-    // }
   }
 
   ngOnInit() {
-    this.normalizeOptions();
     this.subscription = this.keyUp
       .pipe(
         map(event => event),

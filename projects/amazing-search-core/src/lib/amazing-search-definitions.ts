@@ -1,6 +1,8 @@
 export interface ISearchOptions {
-  staticHint?: string;
+  placeholderText?: string;
+  placeholderMobileText?: string;
 }
+
 export interface ILunrDocument<T> {
   ref: string;
   score: number;

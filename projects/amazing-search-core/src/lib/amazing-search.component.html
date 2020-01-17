@@ -5,8 +5,7 @@
     [(ngModel)]="searchTerm"
     (keyup)="onKeyUp($event)"
     class="search-input"
-    track-focus
-    [placeholder]="options.staticHint"
+    [placeholder]="viewPlaceholder"
     (input)="onInput($event)"
   />
   <div class="dots animate" *ngIf="inputActive">
