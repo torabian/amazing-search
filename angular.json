@@ -42,6 +42,8 @@
               ],
               "optimization": true,
               "outputHashing": "all",
+              "baseHref": "/amazing-search/",
+              "deployUrl": "/amazing-search/",
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
