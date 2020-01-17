@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build --prod",
     "deploy": "gh-pages -d dist/amazing-search",
+    "deploy:all": "npm run build:core && npm run npm:core && npm run build && npm run deploy",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
