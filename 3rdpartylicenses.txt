@@ -38,7 +38,7 @@ MIT
 @angular/router
 MIT
 
-amazing-search-core
+amazing-search
 
 core-js
 MIT
