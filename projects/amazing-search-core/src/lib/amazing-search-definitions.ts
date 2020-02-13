@@ -1,6 +1,9 @@
+import { BehaviorSubject } from 'rxjs';
+
 export interface ISearchOptions {
   placeholderText?: string;
   placeholderMobileText?: string;
+  unifyProvidersByKey?: boolean;
 }
 
 export interface ILunrDocument<T> {
@@ -39,4 +42,14 @@ export interface ISearchable {
    * @description When user selects this result, this script will be called
    */
   onSelect?: (item: ISearchable) => void;
+
+  /**
+   * @description meta data, for how many times user has selected this result
+   */
+  $count?: number;
+}
+
+export interface ISearchProvider {
+  ResultProvider: BehaviorSubject<ISearchable[]>;
+  Search(term: string): void;
 }

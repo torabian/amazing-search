@@ -1,5 +1,14 @@
 <h1>Amazing Search - Angular</h1>
-<p>Interactive search module that you can use for any sort of tasks</p>
-<amazing-search [terms]="terms"></amazing-search>
+<p>Interactive search module that you can use for any sort of tasks.</p>
 
-<pre>{{ terms | json }}</pre>
+<h2>Basic usage with static list of content</h2>
+
+<p>
+  If you are looking for a simple list of items to filter, you can use this
+  code:
+</p>
+
+<strong>Preview:</strong>
+<amazing-search [terms]="terms" [providers]="providers"></amazing-search>
+
+<pre><code [highlight]="code"></code></pre>

@@ -7,7 +7,5 @@
       "lunr": "lunr"
     }
   },
-  "whitelistedNonPeerDependencies": [
-    "lunr"
-  ]
+  "whitelistedNonPeerDependencies": ["lunr", "lodash.uniqby"]
 }

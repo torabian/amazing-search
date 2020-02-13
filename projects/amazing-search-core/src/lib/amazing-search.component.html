@@ -3,40 +3,40 @@
     type="text"
     #searchboxInput
     [(ngModel)]="searchTerm"
-    (keyup)="onKeyUp($event)"
+    (keyup)="onSearchTermInputKeyUp($event)"
     class="search-input"
     [placeholder]="viewPlaceholder"
-    (input)="onInput($event)"
-  />
-  <div class="dots animate" *ngIf="inputActive">
-    <span></span> <span></span> <span></span> <span></span> <span></span>
-  </div>
-
-  <div
-    class="search"
-    (click)="onSearchButtonClick()"
-    [ngClass]="searchTerm ? 'active' : ''"
-  >
-    <span class="search-icon"></span>
-  </div>
-
-  <div
-    *ngIf="suggestions && suggestions.length"
-    class="search-box-suggestion"
-    [@openClosed]="
-      searchTerm && visibleSuggestions ? 'open' : 'closed'
+    (focus)="onSearchBoxFocus()"
+    (blur)="DismissAll()"
+    (input)="
+      searchService.Search($event.target.value);
+      !$event.target.value ? DismissAll() : null
     "
-  >
-    <ng-container *ngFor="let suggestion of suggestions; let i = index">
-      <div
-        (click)="selectByPress(i)"
-        [tabindex]="i"
-        class="search-box-suggestion-item search-item-score-{{ 100 - i * 10 }}"
-        [ngClass]="i === selectedIndex ? 'active' : ''"
-      >
-        <h3 class="suggestion-header">{{ suggestion.title }}</h3>
-        <div class="suggestion-description">{{ suggestion.description }}</div>
-      </div>
-    </ng-container>
+  />
+
+  <div class="search" (click)="onSearchButtonClick()">
+    <img
+      class="close-icon"
+      *ngIf="searchTerm"
+      src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEwMCAxMDAiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48cG9seWdvbiBmaWxsPSIjMDEwMTAxIiBwb2ludHM9Ijc3LjYsMjEuMSA0OS42LDQ5LjIgMjEuNSwyMS4xIDE5LjYsMjMgNDcuNiw1MS4xIDE5LjYsNzkuMiAyMS41LDgxLjEgNDkuNiw1MyA3Ny42LDgxLjEgNzkuNiw3OS4yICAgNTEuNSw1MS4xIDc5LjYsMjMgIi8+PC9zdmc+"
+    />
+
+    <img
+      *ngIf="!searchTerm"
+      class="search-icon"
+      src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUwIDUwIiBoZWlnaHQ9IjUwcHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MCA1MCIgd2lkdGg9IjUwcHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iNTAiIHdpZHRoPSI1MCIvPjxjaXJjbGUgY3g9IjIxIiBjeT0iMjAiIGZpbGw9Im5vbmUiIHI9IjE2IiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2Utd2lkdGg9IjIiLz48bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSI0IiB4MT0iMzIuMjI5IiB4Mj0iNDUuNSIgeTE9IjMyLjIyOSIgeTI9IjQ1LjUiLz48L3N2Zz4="
+    />
+  </div>
+  <div *ngIf="searchFinalResults.length" class="search-box-suggestion">
+    <div
+      *ngFor="let result of searchFinalResults; let i = index"
+      (click)="invokeAction(result)"
+      [tabindex]="i"
+      class="search-box-suggestion-item search-item-score-{{ 100 - i * 10 }}"
+      [ngClass]="i === selectedIndex ? 'active' : ''"
+    >
+      <h3 class="suggestion-header">{{ result.title }}</h3>
+      <div class="suggestion-description">{{ result.description }}</div>
+    </div>
   </div>
 </div>

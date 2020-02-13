@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { ISearchable } from 'projects/amazing-search-core/src/lib/amazing-search-definitions';
+import {
+  SimpleRegexSearch,
+  LunrSearchProvider
+} from 'projects/amazing-search-core/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +12,10 @@ import { ISearchable } from 'projects/amazing-search-core/src/lib/amazing-search
 })
 export class AppComponent {
   title = 'amazing-search';
+
+  public code =
+    '<amazing-search [terms]="terms" [providers]="[SimpleRegexSearch, LunrSearchProvider]"></amazing-search>';
+  public providers = [SimpleRegexSearch, LunrSearchProvider];
 
   public terms: Array<ISearchable> = [
     {
@@ -18,7 +26,16 @@ export class AppComponent {
       keywords:
         'search, amazing, amazing search, searching, find, pick, google',
       onSelect: (item: ISearchable) => {
-        alert(`You have selected ${item.title}`);
+        console.log(`You have selected ${item.title}`);
+      }
+    },
+    {
+      title: 'Bogota in Colombia',
+      description: 'Book a new ticket to bogota',
+      id: '2',
+      keywords: 'south america, bogota, new, world',
+      onSelect: (item: ISearchable) => {
+        console.log(`You have selected ${item.title}`);
       }
     }
   ];
