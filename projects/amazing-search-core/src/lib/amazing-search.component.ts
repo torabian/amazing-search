@@ -41,6 +41,9 @@ export class AmazingSearchComponent implements OnInit {
   // Items that will be shown to the user
   public searchFinalResults: ISearchable[] = [];
 
+  // Maximum amount of items that dropdown will show to user.
+  public maximumResults = 5;
+
   @Input() public options: ISearchOptions = defaultOptions;
   @Input() public providers: Array<any> = [
     LunrSearchProvider,

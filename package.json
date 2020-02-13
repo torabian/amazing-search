@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4201",
     "build": "ng build --prod",
     "deploy": "gh-pages -d dist/amazing-search",
     "deploy:all": "npm run build:core && npm run npm:core && npm run build && npm run deploy",

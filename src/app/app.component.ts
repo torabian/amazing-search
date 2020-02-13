@@ -19,7 +19,7 @@ export class AppComponent {
 
   public terms: Array<ISearchable> = [
     {
-      title: 'Amazing search',
+      title: 'Amazing seàrčh',
       description:
         'You can type (search, amazing, amazing search) and I will be appeared!',
       id: '1',

@@ -1,5 +1,9 @@
 import { ISearchable } from './amazing-search-definitions';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
+export function RemoveAccent(str: string) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
 
 export const KEY_UP = 38;
 export const KEY_DOWN = 40;

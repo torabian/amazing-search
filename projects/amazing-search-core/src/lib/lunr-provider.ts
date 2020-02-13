@@ -6,6 +6,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import lunr from 'lunr';
+import { RemoveAccent } from './shared-utils';
 
 export class LunrSearchProvider implements ISearchProvider {
   private indexes;
@@ -25,11 +26,23 @@ export class LunrSearchProvider implements ISearchProvider {
     return result.map(x => this.terms.find(y => y.id === x.ref));
   }
 
+  private generateMetaFields(terms: ISearchable[]) {
+    return terms.map(term => {
+      return {
+        ...term,
+        $title: RemoveAccent(term.title),
+        $keywords: RemoveAccent(term.keywords),
+        $description: RemoveAccent(term.description)
+      };
+    });
+  }
+
   private indexTermsToLunr(terms: ISearchable[]) {
+    terms = this.generateMetaFields(terms);
     this.indexes = lunr(function() {
-      this.field('title');
-      this.field('description');
-      this.field('keywords');
+      this.field('$title');
+      this.field('$description');
+      this.field('$keywords');
       terms.forEach(x => this.add(x));
     });
   }

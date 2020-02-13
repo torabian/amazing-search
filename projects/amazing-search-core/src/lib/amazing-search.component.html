@@ -28,15 +28,17 @@
     />
   </div>
   <div *ngIf="searchFinalResults.length" class="search-box-suggestion">
-    <div
-      *ngFor="let result of searchFinalResults; let i = index"
-      (click)="invokeAction(result)"
-      [tabindex]="i"
-      class="search-box-suggestion-item search-item-score-{{ 100 - i * 10 }}"
-      [ngClass]="i === selectedIndex ? 'active' : ''"
-    >
-      <h3 class="suggestion-header">{{ result.title }}</h3>
-      <div class="suggestion-description">{{ result.description }}</div>
-    </div>
+    <ng-container *ngFor="let result of searchFinalResults; let i = index">
+      <div
+        (click)="invokeAction(result)"
+        *ngIf="i <= maximumResults"
+        [tabindex]="i"
+        class="search-box-suggestion-item search-item-score-{{ 100 - i * 10 }}"
+        [ngClass]="i === selectedIndex ? 'active' : ''"
+      >
+        <h3 class="suggestion-header">{{ result.title }}</h3>
+        <div class="suggestion-description">{{ result.description }}</div>
+      </div>
+    </ng-container>
   </div>
 </div>

@@ -23,7 +23,7 @@ export interface ISearchable {
   /**
    * @description When user search appears, this will be shown. This field will be indexed
    */
-  title: ((term: string) => string) | string;
+  title: string;
   /**
    * @description Add keywords separated with comma. It helps the search. This fields will
    * be indexed
