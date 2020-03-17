@@ -148,7 +148,6 @@ export class AmazingSearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.providers);
     this.searchService.SetProviders(this.providers);
     this.searchService.SearchResult.subscribe(result => {
       this.searchFinalResults = result;
@@ -156,7 +155,6 @@ export class AmazingSearchComponent implements OnInit {
   }
 
   public onSearchButtonClick() {
-    console.log('clicked!');
     this.DismissAll();
   }
 }

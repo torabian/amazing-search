@@ -33,7 +33,6 @@ export class AmazingSearchService {
 
   public SetSearchTerms(items: ISearchable[], options: ISearchOptions) {
     this.options = options;
-    console.log(this.providers);
     for (const provider of this.providers) {
       this.searchProviders.push(new provider(items));
     }
