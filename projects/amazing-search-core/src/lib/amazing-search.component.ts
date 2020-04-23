@@ -3,7 +3,7 @@ import {
   OnInit,
   HostListener,
   Input,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { ISearchOptions, ISearchable } from './amazing-search-definitions';
@@ -19,13 +19,13 @@ import {
   ENTER_KEY,
   ESCAPE_KEY,
   StoreInSearchHistory,
-  IsMobileOrTablet
+  IsMobileOrTablet,
 } from './shared-utils';
 
 const SearchHistory = new BehaviorSubject([]);
 
 const defaultOptions: ISearchOptions = {
-  unifyProvidersByKey: true
+  unifyProvidersByKey: true,
 };
 
 @Component({
@@ -33,7 +33,7 @@ const defaultOptions: ISearchOptions = {
   selector: 'amazing-search',
   /* tslint:enable */
   templateUrl: './amazing-search.component.html',
-  styleUrls: ['./amazing-search.component.scss']
+  styleUrls: ['./amazing-search.component.scss'],
 })
 export class AmazingSearchComponent implements OnInit {
   public searchTerm = '';
@@ -47,7 +47,7 @@ export class AmazingSearchComponent implements OnInit {
   @Input() public options: ISearchOptions = defaultOptions;
   @Input() public providers: Array<any> = [
     LunrSearchProvider,
-    SimpleRegexSearch
+    SimpleRegexSearch,
   ];
 
   @Input() public set terms(terms: ISearchable[]) {
@@ -112,6 +112,12 @@ export class AmazingSearchComponent implements OnInit {
     }
   }
 
+  public DismissDelayed(delay = 150) {
+    setTimeout(() => {
+      this.DismissAll();
+    }, delay);
+  }
+
   public DismissAll() {
     this.searchTerm = '';
     this.selectedIndex = 0;
@@ -134,6 +140,7 @@ export class AmazingSearchComponent implements OnInit {
       suggestion.onSelect(this.CurentSelectedItem);
     }
     this.DismissAll();
+    this.searchboxInput.nativeElement.blur();
   }
 
   public get viewPlaceholder() {
@@ -149,7 +156,7 @@ export class AmazingSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchService.SetProviders(this.providers);
-    this.searchService.SearchResult.subscribe(result => {
+    this.searchService.SearchResult.subscribe((result) => {
       this.searchFinalResults = result;
     });
   }

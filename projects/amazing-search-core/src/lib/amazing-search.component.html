@@ -7,14 +7,14 @@
     class="search-input"
     [placeholder]="viewPlaceholder"
     (focus)="onSearchBoxFocus()"
-    (blur)="DismissAll()"
+    (blur)="DismissDelayed()"
     (input)="
       searchService.Search($event.target.value);
       !$event.target.value ? DismissAll() : null
     "
   />
 
-  <div class="search" (click)="onSearchButtonClick()">
+  <div class="search" (click)="DismissAll()">
     <img
       class="close-icon"
       *ngIf="searchTerm"
